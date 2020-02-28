@@ -8,7 +8,9 @@ from abc import ABC, abstractmethod
 from tensorboardX import SummaryWriter
 import numpy as np
 import torch
+import torchvision
 import torch.nn as nn
+
 # TODO: check if new object required per script
 summary_writer = SummaryWriter()
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -145,7 +147,7 @@ class GeneratorTrainer(Trainer):
             self.train_loss = loss.item()
             self.optimizer.step()
 
-            summary_writer.add_scalar('train_loss', loss.item())
+            summary_writer.add_scalar('generator_train_loss', loss.item())
             if batch_idx % self.config.logs.log_interval == 0:
                 print(
                     'Train Epoch: {} [{}/{} ({:.0f}%)]\tLoss: {:.6f}\tlr: {:.6f}'.format(
@@ -153,6 +155,9 @@ class GeneratorTrainer(Trainer):
                     100. * batch_idx / len(self.data),
                     loss.item() / len(self.data), self.curr_lr)
                 )
+            
+            grid = torchvision.utils.make_grid(output)
+            summary_writer.add_image('generator_output', grid, 0)
 
         # self.visualizer.add_values(epoch, loss_train=self.train_loss)
         # self.visualizer.redraw()
@@ -219,7 +224,7 @@ class DiscriminatorTrainer(Trainer):
             self.train_loss = loss.item()
             self.optimizer.step()
 
-            summary_writer.add_scalar('train_loss', loss.item())
+            summary_writer.add_scalar('discriminator_train_loss', loss.item())
             if batch_idx % self.config.logs.log_interval == 0:
                 print(
                     'Train Epoch: {} [{}/{} ({:.0f}%)]\tLoss: {:.6f}\tlr: {:.6f}'.format(

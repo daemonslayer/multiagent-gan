@@ -24,7 +24,7 @@ import torchvision.datasets as datasets
 from torch.autograd import Variable
 from tensorboardX import SummaryWriter
 
-from model import CNN, Generator, Discriminator
+from model import Generator, Discriminator
 from trainer import Trainer, GeneratorTrainer, DiscriminatorTrainer
 from evaluator import Evaluator, GeneratorEvaluator, DiscriminatorEvaluator
 from mapper import *

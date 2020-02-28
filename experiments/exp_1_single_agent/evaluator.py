@@ -99,7 +99,7 @@ class GeneratorEvaluator(Evaluator):
                 pred = output.max(1, keepdim=True)[1]
 
             self.eval_loss /= len(self.data.dataset)
-            summary_writer.add_scalar('eval_loss', self.eval_loss)
+            summary_writer.add_scalar('generator_eval_loss', self.eval_loss)
 
             print('\nEval Set: Average loss: {:.4f}\n'.format(self.eval_loss))
 
@@ -147,7 +147,7 @@ class DiscriminatorEvaluator(Evaluator):
                 correct += pred.eq(labels.view_as(pred)).sum().item()
 
             self.eval_loss /= len(self.data.dataset)
-            summary_writer.add_scalar('eval_loss', self.eval_loss)
+            summary_writer.add_scalar('discriminator_eval_loss', self.eval_loss)
 
             print('\nEval Set: Average loss: {:.4f}\n'.format(self.eval_loss))
 
